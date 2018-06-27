@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from "rxjs/Observable";
-import 'rxjs/Rx';
-import { Observer } from "rxjs/Observer";
+import { Observable, Observer, Subscription, interval } from "rxjs";
+//noinspection TypeScriptCheckImport
+import { map } from 'rxjs/operators';
 import { OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'app-home',
@@ -19,21 +18,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const myNumbers = Observable.interval(1000);
         //noinspection TypeScriptValidateTypes
+        const myNumbers = interval(1000)
+            .pipe(map(
+                    (data: number) => {
+                        return data * 2;
+                    }
+                )
+            );
         this.numbersObsSubscription = myNumbers
-            .map(
-                (data: number) => {
-                    return data * 2;
-                }
-            )
             .subscribe(
                 (number: number) => {
                     console.log(number);
                 }
             );
 
-        const myObservable = Observable.create((observer: Observer) => {
+        const myObservable = Observable.create((observer: Observer<any>) => {
             setTimeout(() => {
                 observer.next('First package')
             }, 2000);
