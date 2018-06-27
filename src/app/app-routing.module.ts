@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'user/:id', component: UserComponent}
 ];
-
+  
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)
